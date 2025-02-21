@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>DPI ↔ Pixel Size Calculator</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+        .converters {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .input-group {
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+        input[type="number"] {
+            width: 200px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        .result {
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+        }
+        .result span {
+            font-weight: bold;
+            color: #2c5282;
+            font-family: monospace;
+        }
+        .info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DPI ↔ Pixel Size Calculator</h1>
+
+        <div class="card">
+            <div class="converters">
+                <div class="converter-section">
+                    <h2>Pixel Size to DPI</h2>
+                    <div class="input-group">
+                        <label for="pixelSize">Pixel Size (meters):</label>
+                        <input type="number" id="pixelSize" step="1e-7" value="0.0000034">
+                    </div>
+                    <div class="result">
+                        DPI: <span id="dpiResult">0</span>
+                    </div>
+                </div>
+
+                <div class="converter-section">
+                    <h2>DPI to Pixel Size</h2>
+                    <div class="input-group">
+                        <label for="dpi">DPI:</label>
+                        <input type="number" id="dpi" step="0.001" value="7362.000">
+                    </div>
+                    <div class="result">
+                        Pixel Size: <span id="pixelSizeResult">0</span> m
+                    </div>
+                </div>
+            </div>
+
+            <div class="info">
+                <h3>How it works:</h3>
+                <p>Conversion formulas:</p>
+                <ul>
+                    <li>DPI = 0.0254 / pixel_size_meters</li>
+                    <li>Pixel Size (m) = 0.0254 / DPI</li>
+                </ul>
+                <p>Where 0.0254 is the number of meters in an inch</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function formatPixelSize(meters) {
+            // Format to fixed decimal notation with 7 decimal places
+            return (meters).toFixed(7);
+        }
+
+        function formatDPI(dpi) {
+            // Format to fixed decimal notation with 3 decimal places
+            return parseFloat(dpi).toFixed(3);
+        }
+
+        function calculateDPI() {
+            const pixelSize = parseFloat(document.getElementById('pixelSize').value);
+            
+            if (pixelSize > 0) {
+                const dpi = 0.0254 / pixelSize;
+                document.getElementById('dpiResult').textContent = formatDPI(dpi);
+            } else {
+                document.getElementById('dpiResult').textContent = "Invalid input";
+            }
+        }
+
+        function calculatePixelSize() {
+            const dpi = parseFloat(document.getElementById('dpi').value);
+            
+            if (dpi > 0) {
+                const pixelSize = 0.0254 / dpi;
+                document.getElementById('pixelSizeResult').textContent = formatPixelSize(pixelSize);
+            } else {
+                document.getElementById('pixelSizeResult').textContent = "Invalid input";
+            }
+        }
+
+        // Add event listeners
+        document.getElementById('pixelSize').addEventListener('input', calculateDPI);
+        document.getElementById('dpi').addEventListener('input', calculatePixelSize);
+
+        // Initial calculations
+        calculateDPI();
+        calculatePixelSize();
+    </script>
+</body>
+</html>
